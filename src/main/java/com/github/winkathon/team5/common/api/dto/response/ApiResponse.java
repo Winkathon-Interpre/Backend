@@ -1,5 +1,7 @@
 package com.github.winkathon.team5.common.api.dto.response;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 
 import com.github.winkathon.team5.common.api.exception.ApiException;
@@ -15,6 +17,11 @@ public class ApiResponse<T> {
     private final int statusCode;
     private final String error;
     private final T content;
+
+    public static ApiResponse<Map<?, ?>> ok() {
+
+        return new ApiResponse<>(200, null, Map.of());
+    }
 
     public static <T> ApiResponse<T> ok(T content) {
 

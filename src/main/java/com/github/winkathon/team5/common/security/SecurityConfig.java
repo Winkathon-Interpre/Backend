@@ -45,9 +45,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> {
                     request.requestMatchers("/swagger/**").permitAll();
 
-                    request.requestMatchers(HttpMethod.POST, "/user/login").anonymous();
-                    request.requestMatchers(HttpMethod.POST, "/user/register").anonymous();
-                    request.requestMatchers(HttpMethod.POST, "/user/refresh").permitAll();
+                    request.requestMatchers(HttpMethod.POST, "/auth/login").anonymous();
+                    request.requestMatchers(HttpMethod.POST, "/auth/register").anonymous();
+                    request.requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll();
 
                     request.anyRequest().authenticated();
                 })

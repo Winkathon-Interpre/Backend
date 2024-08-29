@@ -2,7 +2,6 @@ package com.github.winkathon.team5.common.security.jwt;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Component;
 
@@ -10,8 +9,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.github.winkathon.team5.common.property.JwtProperty;
-import com.github.winkathon.team5.domain.user.repository.RefreshTokenRepository;
-import com.github.winkathon.team5.domain.user.schema.RefreshToken;
+import com.github.winkathon.team5.domain.auth.repository.RefreshTokenRepository;
+import com.github.winkathon.team5.domain.auth.schema.RefreshToken;
 import com.github.winkathon.team5.domain.user.schema.User;
 
 import jakarta.annotation.PostConstruct;
@@ -49,9 +48,9 @@ public class JwtUtil {
                 .sign(algorithm);
 
         RefreshToken refreshToken = RefreshToken.builder()
-                .id(user.id())
+                .user(user)
                 .token(token)
-                .ttl(TimeUnit.HOURS.toMillis(jwtProperty.getRefreshTokenExpirationsHours()))
+                .ttl(jwtProperty.getRefreshTokenExpirationsHours())
                 .build();
 
         refreshTokenRepository.save(refreshToken);
