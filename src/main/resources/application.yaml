@@ -1,3 +1,10 @@
+server:
+  servlet:
+    context-path: /api
+    encoding:
+      charset: UTF-8
+      force-response: true
+
 spring:
   mvc:
     log-resolved-exception: false
@@ -5,4 +12,5 @@ spring:
     import:
       - classpath:config/mongo.yaml
       - classpath:config/redis.yaml
+      - classpath:config/jwt.yaml
       - classpath:config/swagger.fixed.yaml

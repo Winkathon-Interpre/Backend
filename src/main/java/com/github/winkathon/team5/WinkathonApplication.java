@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+import com.github.winkathon.team5.common.property.JwtProperty;
 import com.github.winkathon.team5.common.property.MongoProperty;
 import com.github.winkathon.team5.common.property.RedisProperty;
 
@@ -11,7 +12,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 
 @SpringBootApplication
-@EnableConfigurationProperties({MongoProperty.class, RedisProperty.class})
+@EnableConfigurationProperties({MongoProperty.class, RedisProperty.class, JwtProperty.class})
 @OpenAPIDefinition(
         info = @Info(
                 title = "Winkathon Team 5",
