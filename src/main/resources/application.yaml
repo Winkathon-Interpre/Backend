@@ -3,3 +3,4 @@ spring:
     import:
       - classpath:config/mongo.yaml
       - classpath:config/redis.yaml
+      - classpath:config/swagger.fixed.yaml
