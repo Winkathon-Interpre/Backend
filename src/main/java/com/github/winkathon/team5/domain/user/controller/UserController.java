@@ -12,6 +12,7 @@ import com.github.winkathon.team5.common.api.dto.response.ApiResponse;
 import com.github.winkathon.team5.common.security.util.UserContext;
 import com.github.winkathon.team5.domain.user.dto.request.ChangePasswordRequest;
 import com.github.winkathon.team5.domain.user.dto.response.UserListResponse;
+import com.github.winkathon.team5.domain.user.dto.response.UserResponse;
 import com.github.winkathon.team5.domain.user.schema.User;
 import com.github.winkathon.team5.domain.user.service.UserService;
 
@@ -34,9 +35,9 @@ public class UserController {
 
     @GetMapping("/{userId}")
     @PreAuthorize("permitAll()")
-    public ApiResponse<User> getUserInfo(@PathVariable String userId) {
+    public ApiResponse<UserResponse> getUser(@PathVariable String userId) {
 
-        return ApiResponse.ok(userService.getUserInfo(userId));
+        return ApiResponse.ok(userService.getUser(userId));
     }
 
     @PatchMapping("/password")
