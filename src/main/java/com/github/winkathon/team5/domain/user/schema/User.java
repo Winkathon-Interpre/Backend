@@ -1,7 +1,5 @@
 package com.github.winkathon.team5.domain.user.schema;
 
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.winkathon.team5.common.schema.BaseSchema;
 
@@ -25,7 +23,7 @@ public class User extends BaseSchema {
     @JsonIgnore
     private Role role;
 
-    private LocalDate subscriptionStartDate;
+    private int credit;
 
     @Getter
     public enum Role {

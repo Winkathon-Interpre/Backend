@@ -1,11 +1,11 @@
-package com.github.winkathon.team5.domain.subscription.dto;
+package com.github.winkathon.team5.domain.credit.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
-public record SubscribeRequest(
+public record BuyCreditRequest(
 
         @NotBlank
         String orderId,
