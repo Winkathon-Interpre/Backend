@@ -1,5 +1,6 @@
 package com.github.winkathon.team5.domain.user.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,18 +26,21 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping()
+    @PreAuthorize("permitAll()")
     public ApiResponse<UserListResponse> getUserList() {
 
         return ApiResponse.ok(userService.getUserList());
     }
 
     @GetMapping("/{userId}")
+    @PreAuthorize("permitAll()")
     public ApiResponse<User> getUserInfo(@PathVariable String userId) {
 
         return ApiResponse.ok(userService.getUserInfo(userId));
     }
 
     @PatchMapping("/password")
+    @PreAuthorize("isAuthenticated()")
     public ApiResponse<Void> changePassword(@RequestBody @Valid ChangePasswordRequest request) {
 
         User user = UserContext.getUser();

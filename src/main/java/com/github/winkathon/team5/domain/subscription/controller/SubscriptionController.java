@@ -1,5 +1,6 @@
 package com.github.winkathon.team5.domain.subscription.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 
     @PostMapping("/subscribe")
+    @PreAuthorize("isAuthenticated()")
     public ApiResponse<Void> subscribe(@RequestBody @Valid SubscribeRequest request) {
 
         User user = UserContext.getUser();
@@ -32,6 +34,7 @@ public class SubscriptionController {
     }
 
     @PostMapping("/unsubscribe")
+    @PreAuthorize("isAuthenticated()")
     public ApiResponse<Void> unsubscribe() {
 
         User user = UserContext.getUser();

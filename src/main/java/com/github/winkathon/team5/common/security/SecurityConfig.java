@@ -2,7 +2,6 @@ package com.github.winkathon.team5.common.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -42,15 +41,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider)
 
-                .authorizeHttpRequests(request -> {
-                    request.requestMatchers("/swagger/**").permitAll();
-
-                    request.requestMatchers(HttpMethod.POST, "/auth/login").anonymous();
-                    request.requestMatchers(HttpMethod.POST, "/auth/register").anonymous();
-                    request.requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll();
-
-                    request.anyRequest().authenticated();
-                })
+                .authorizeHttpRequests(request -> request.anyRequest().permitAll())
 
                 .build();
     }
