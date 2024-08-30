@@ -2,6 +2,7 @@ package com.github.winkathon.team5.domain.user.schema;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.winkathon.team5.common.schema.BaseSchema;
 
 import lombok.Builder;
@@ -14,7 +15,11 @@ import lombok.Getter;
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseSchema {
 
+    private String name;
     private String email;
+    private String phone;
+
+    @JsonIgnore
     private String password;
 
     private Role role;

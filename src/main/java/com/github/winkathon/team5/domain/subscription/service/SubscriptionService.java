@@ -72,7 +72,7 @@ public class SubscriptionService {
                 .isBefore(LocalDate.now());
     }
 
-    @Scheduled(cron = "* * * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void checkSubscription() {
 
         userRepository.findAll().stream()

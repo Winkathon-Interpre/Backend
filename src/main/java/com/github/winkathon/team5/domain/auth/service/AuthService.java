@@ -1,6 +1,7 @@
 package com.github.winkathon.team5.domain.auth.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import com.github.winkathon.team5.domain.auth.dto.request.RefreshRequest;
 import com.github.winkathon.team5.domain.auth.dto.request.RegisterRequest;
 import com.github.winkathon.team5.domain.auth.dto.response.LoginResponse;
 import com.github.winkathon.team5.domain.auth.exception.AlreadyRegisteredEmailException;
+import com.github.winkathon.team5.domain.auth.exception.AlreadyRegisteredPhoneException;
 import com.github.winkathon.team5.domain.auth.exception.AuthenticationFailException;
 import com.github.winkathon.team5.domain.auth.exception.InvalidRefreshTokenException;
 import com.github.winkathon.team5.domain.auth.repository.RefreshTokenRepository;
@@ -39,7 +41,9 @@ public class AuthService {
                 .orElseThrow(AuthenticationFailException::new);
 
         UserAuthentication authentication = new UserAuthentication(user, password);
-        authenticationManager.authenticate(authentication);
+        Authentication authenticate = authenticationManager.authenticate(authentication);
+
+        assert authenticate.isAuthenticated();
 
         String accessToken = jwtUtil.generateAccessToken(user);
         String refreshToken = jwtUtil.generateRefreshToken(user);
@@ -52,7 +56,9 @@ public class AuthService {
 
     public void register(RegisterRequest dto) {
 
+        String name = dto.name();
         String email = dto.email();
+        String phone = dto.phone();
         String password = dto.password();
 
         if (userRepository.existsByEmail(email)) {
@@ -60,8 +66,15 @@ public class AuthService {
             throw new AlreadyRegisteredEmailException();
         }
 
+        if (userRepository.existsByPhone(phone)) {
+
+            throw new AlreadyRegisteredPhoneException();
+        }
+
         User user = User.builder()
+                .name(name)
                 .email(email)
+                .phone(phone)
                 .password(encoder.encode(password))
                 .role(User.Role.USER)
                 .build();
