@@ -12,9 +12,7 @@ import com.github.winkathon.interpre.domain.user.repository.UserRepository;
 import com.github.winkathon.interpre.domain.user.schema.User;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreditService {
