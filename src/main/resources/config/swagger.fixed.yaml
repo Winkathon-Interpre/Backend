@@ -1,6 +1,0 @@
-springdoc:
-  swagger-ui:
-    defaultModelsExpandDepth: -1
-    path: /api/swagger/swagger-ui.html
-  api-docs:
-    path: /api/swagger.json

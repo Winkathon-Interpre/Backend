@@ -23,6 +23,7 @@ public class ApiExceptionHandler {
     public ApiResponse<?> methodArgumentNotValidException(MethodArgumentNotValidException e) {
 
         if (e.getBindingResult().getFieldError() == null) {
+
             return ApiResponse.error(HttpStatus.BAD_REQUEST, e.getMessage());
         }
 
