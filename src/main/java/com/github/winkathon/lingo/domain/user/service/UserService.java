@@ -11,6 +11,7 @@ import com.github.winkathon.lingo.common.security.authentication.UserAuthenticat
 import com.github.winkathon.lingo.domain.user.dto.request.ChangePasswordRequest;
 import com.github.winkathon.lingo.domain.user.dto.response.UserListResponse;
 import com.github.winkathon.lingo.domain.user.dto.response.UserResponse;
+import com.github.winkathon.lingo.domain.user.exception.UserNotFoundException;
 import com.github.winkathon.lingo.domain.user.repository.UserRepository;
 import com.github.winkathon.lingo.domain.user.schema.User;
 
@@ -45,7 +46,7 @@ public class UserService {
 
                     return user1;
                 })
-                .orElse(null);
+                .orElseThrow(UserNotFoundException::new);
 
         return UserResponse.builder()
                 .user(user)
