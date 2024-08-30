@@ -52,7 +52,9 @@ public class AuthService {
 
     public void register(RegisterRequest dto) {
 
+        String name = dto.name();
         String email = dto.email();
+        String phone = dto.phone();
         String password = dto.password();
 
         if (userRepository.existsByEmail(email)) {
@@ -61,7 +63,9 @@ public class AuthService {
         }
 
         User user = User.builder()
+                .name(name)
                 .email(email)
+                .phone(phone)
                 .password(encoder.encode(password))
                 .role(User.Role.USER)
                 .build();

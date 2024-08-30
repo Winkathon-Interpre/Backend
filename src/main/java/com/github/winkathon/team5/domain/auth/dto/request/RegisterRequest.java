@@ -9,8 +9,16 @@ import lombok.Builder;
 public record RegisterRequest(
 
         @NotBlank
+        @Pattern(regexp = "^[가-힣]{2,4}$")
+        String name,
+
+        @NotBlank
         @Email
         String email,
+
+        @NotBlank
+        @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
+        String phone,
 
         @NotBlank
         @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&#.~_-])[A-Za-z\\d@$!%*?&#.~_-]{8,}$")
