@@ -1,4 +1,4 @@
-package com.github.winkathon.team5.domain.subscription.util;
+package com.github.winkathon.team5.domain.credit.util;
 
 import java.util.Base64;
 import java.util.Map;
