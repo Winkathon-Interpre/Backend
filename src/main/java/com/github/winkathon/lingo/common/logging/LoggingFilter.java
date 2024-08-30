@@ -33,9 +33,16 @@ public class LoggingFilter extends OncePerRequestFilter {
         log.info("{} {} {} {} {}ms",
                 request.getMethod(),
                 request.getRequestURI(),
-                request.getRemoteAddr(),
+                getIp(request),
                 response.getStatus(),
                 elapsed
         );
+    }
+
+    private String getIp(HttpServletRequest request) {
+
+        String xfHeader = request.getHeader("X-Forwarded-For");
+
+        return xfHeader == null ? request.getRemoteAddr() : xfHeader.split(",")[0];
     }
 }
