@@ -9,9 +9,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.github.winkathon.lingo.common.property.TossProperty;
+import com.github.winkathon.lingo.domain.credit.exception.BuyFailException;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -47,15 +49,25 @@ public class TossApi {
                 Map.entry("amount", amount)
         );
 
-        //noinspection rawtypes
-        ResponseEntity<Map> response = restTemplate.exchange(
-                "https://api.tosspayments.com/v1//payments/confirm",
-                HttpMethod.POST,
-                new HttpEntity<>(body, headers),
-                Map.class
-        );
+        try {
+            //noinspection rawtypes
+            ResponseEntity<Map> response = restTemplate.exchange(
+                    "https://api.tosspayments.com/v1//payments/confirm",
+                    HttpMethod.POST,
+                    new HttpEntity<>(body, headers),
+                    Map.class
+            );
 
-        //noinspection unchecked
-        return response.getBody();
+            //noinspection unchecked
+            return response.getBody();
+        } catch (HttpClientErrorException.NotFound e) {
+
+            throw new BuyFailException();
+        } catch (HttpClientErrorException e) {
+
+            log.warn("Toss API 호출 중 오류가 발생했습니다.", e);
+
+            throw new BuyFailException();
+        }
     }
 }
