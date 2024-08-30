@@ -1,5 +1,7 @@
 package com.github.winkathon.team5.domain.user.schema;
 
+import java.time.LocalDate;
+
 import com.github.winkathon.team5.common.schema.BaseSchema;
 
 import lombok.Builder;
@@ -16,6 +18,8 @@ public class User extends BaseSchema {
     private String password;
 
     private Role role;
+
+    private LocalDate subscriptionStartDate;
 
     @Getter
     public enum Role {

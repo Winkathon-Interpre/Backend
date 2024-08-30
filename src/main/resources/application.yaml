@@ -13,3 +13,4 @@ spring:
       - classpath:config/mongo.yaml
       - classpath:config/redis.yaml
       - classpath:config/jwt.yaml
+      - classpath:config/toss.yaml
