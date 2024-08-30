@@ -22,6 +22,7 @@ public class User extends BaseSchema {
     @JsonIgnore
     private String password;
 
+    @JsonIgnore
     private Role role;
 
     private LocalDate subscriptionStartDate;
@@ -30,7 +31,6 @@ public class User extends BaseSchema {
     public enum Role {
 
         USER,
-        ADMIN(Role.USER),
         ;
 
         private final Role[] inheritedRoles;
