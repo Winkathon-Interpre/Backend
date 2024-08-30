@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.winkathon.team5.common.security.authentication.UserAuthentication;
 import com.github.winkathon.team5.domain.user.dto.request.ChangePasswordRequest;
 import com.github.winkathon.team5.domain.user.dto.response.UserListResponse;
+import com.github.winkathon.team5.domain.user.dto.response.UserResponse;
 import com.github.winkathon.team5.domain.user.repository.UserRepository;
 import com.github.winkathon.team5.domain.user.schema.User;
 
@@ -35,16 +36,20 @@ public class UserService {
                 .build();
     }
 
-    public User getUserInfo(String userId) {
+    public UserResponse getUser(String userId) {
 
-        return userRepository.findById(userId)
-                .map(user -> {
-                    user.setEmail(null);
-                    user.setPhone(null);
-                    
-                    return user;
+        User user = userRepository.findById(userId)
+                .map(user1 -> {
+                    user1.setEmail(null);
+                    user1.setPhone(null);
+
+                    return user1;
                 })
                 .orElse(null);
+
+        return UserResponse.builder()
+                .user(user)
+                .build();
     }
 
     public void changePassword(User user, ChangePasswordRequest dto) {

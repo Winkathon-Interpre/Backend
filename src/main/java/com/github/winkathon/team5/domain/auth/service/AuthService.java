@@ -17,6 +17,7 @@ import com.github.winkathon.team5.domain.auth.exception.AuthenticationFailExcept
 import com.github.winkathon.team5.domain.auth.exception.InvalidRefreshTokenException;
 import com.github.winkathon.team5.domain.auth.repository.RefreshTokenRepository;
 import com.github.winkathon.team5.domain.auth.schema.RefreshToken;
+import com.github.winkathon.team5.domain.user.dto.response.UserResponse;
 import com.github.winkathon.team5.domain.user.repository.UserRepository;
 import com.github.winkathon.team5.domain.user.schema.User;
 
@@ -100,6 +101,13 @@ public class AuthService {
         return LoginResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(newRefreshToken)
+                .build();
+    }
+
+    public UserResponse me(User user) {
+
+        return UserResponse.builder()
+                .user(user)
                 .build();
     }
 }
