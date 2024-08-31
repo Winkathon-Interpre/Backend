@@ -5,11 +5,9 @@ import com.github.winkathon.lingo.domain.user.schema.User;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @Builder
-@EqualsAndHashCode(callSuper = true)
 public class Post extends BaseSchema {
 
     private User owner;
@@ -19,4 +17,13 @@ public class Post extends BaseSchema {
 
     private boolean paid;
     private int price;
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (!(o instanceof Post post))
+            return false;
+
+        return getId().equals(post.getId());
+    }
 }
