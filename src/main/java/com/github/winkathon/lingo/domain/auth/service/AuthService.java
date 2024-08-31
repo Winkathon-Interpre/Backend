@@ -11,7 +11,6 @@ import com.github.winkathon.lingo.domain.auth.dto.request.LoginRequest;
 import com.github.winkathon.lingo.domain.auth.dto.request.RefreshRequest;
 import com.github.winkathon.lingo.domain.auth.dto.request.RegisterRequest;
 import com.github.winkathon.lingo.domain.auth.dto.response.LoginResponse;
-import com.github.winkathon.lingo.domain.auth.exception.AlreadyRegisteredEmailException;
 import com.github.winkathon.lingo.domain.auth.exception.AlreadyRegisteredPhoneException;
 import com.github.winkathon.lingo.domain.auth.exception.AuthenticationFailException;
 import com.github.winkathon.lingo.domain.auth.exception.InvalidRefreshTokenException;
@@ -35,10 +34,10 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest dto) {
 
-        String email = dto.email();
+        String userId = dto.id();
         String password = dto.password();
 
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findByUserId(userId)
                 .orElseThrow(AuthenticationFailException::new);
 
         UserAuthentication authentication = new UserAuthentication(user, password);
@@ -58,26 +57,18 @@ public class AuthService {
     public void register(RegisterRequest dto) {
 
         String name = dto.name();
-        String email = dto.email();
-        String phone = dto.phone();
+        String userId = dto.id();
         String password = dto.password();
 
-        if (userRepository.existsByEmail(email)) {
-
-            throw new AlreadyRegisteredEmailException();
-        }
-
-        if (userRepository.existsByPhone(phone)) {
+        if (userRepository.existsByUserId(userId)) {
 
             throw new AlreadyRegisteredPhoneException();
         }
 
         User user = User.builder()
                 .name(name)
-                .email(email)
-                .phone(phone)
+                .userId(userId)
                 .password(encoder.encode(password))
-                .role(User.Role.USER)
                 .build();
 
         userRepository.save(user);

@@ -10,9 +10,7 @@ import com.github.winkathon.lingo.domain.user.schema.User;
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
 
-    Optional<User> findByEmail(String email);
+    Optional<User> findByUserId(String userId);
 
-    boolean existsByEmail(String email);
-
-    boolean existsByPhone(String phone);
+    boolean existsByUserId(String userId);
 }

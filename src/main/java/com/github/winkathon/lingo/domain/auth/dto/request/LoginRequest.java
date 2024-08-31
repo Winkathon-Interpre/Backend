@@ -7,7 +7,7 @@ import lombok.Builder;
 public record LoginRequest(
 
         @NotBlank
-        String email,
+        String id,
 
         @NotBlank
         String password

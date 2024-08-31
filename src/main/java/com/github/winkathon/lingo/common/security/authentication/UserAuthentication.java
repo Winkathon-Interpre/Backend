@@ -1,7 +1,7 @@
 package com.github.winkathon.lingo.common.security.authentication;
 
 import java.util.Collection;
-import java.util.stream.Stream;
+import java.util.List;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,19 +27,10 @@ public class UserAuthentication implements Authentication {
         this(user, null);
     }
 
-    private Stream<User.Role> getAllRoles(User.Role role) {
-        return Stream.concat(
-                Stream.of(role),
-                Stream.of(role.getInheritedRoles())
-                        .flatMap(this::getAllRoles)
-        );
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getAllRoles(user.getRole())
-                .map(role -> "ROLE_" + role.name())
-                .map(SimpleGrantedAuthority::new).toList();
+
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
