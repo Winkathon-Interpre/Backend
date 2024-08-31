@@ -1,5 +1,7 @@
 package com.github.winkathon.lingo.domain.auth.service;
 
+import java.util.List;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,8 +13,9 @@ import com.github.winkathon.lingo.domain.auth.dto.request.LoginRequest;
 import com.github.winkathon.lingo.domain.auth.dto.request.RefreshRequest;
 import com.github.winkathon.lingo.domain.auth.dto.request.RegisterRequest;
 import com.github.winkathon.lingo.domain.auth.dto.response.LoginResponse;
-import com.github.winkathon.lingo.domain.auth.exception.AlreadyRegisteredPhoneException;
+import com.github.winkathon.lingo.domain.auth.dto.response.PreRegisterResponse;
 import com.github.winkathon.lingo.domain.auth.exception.AuthenticationFailException;
+import com.github.winkathon.lingo.domain.auth.exception.ExistsUserIdException;
 import com.github.winkathon.lingo.domain.auth.exception.InvalidRefreshTokenException;
 import com.github.winkathon.lingo.domain.auth.repository.RefreshTokenRepository;
 import com.github.winkathon.lingo.domain.auth.schema.RefreshToken;
@@ -54,6 +57,15 @@ public class AuthService {
                 .build();
     }
 
+    public PreRegisterResponse preRegister(String id) {
+
+        boolean exists = userRepository.existsByUserId(id);
+
+        return PreRegisterResponse.builder()
+                .exists(exists)
+                .build();
+    }
+
     public void register(RegisterRequest dto) {
 
         String name = dto.name();
@@ -62,13 +74,15 @@ public class AuthService {
 
         if (userRepository.existsByUserId(userId)) {
 
-            throw new AlreadyRegisteredPhoneException();
+            throw new ExistsUserIdException();
         }
 
         User user = User.builder()
                 .name(name)
                 .userId(userId)
                 .password(encoder.encode(password))
+                .paidPosts(List.of())
+                .savedPosts(List.of())
                 .build();
 
         userRepository.save(user);

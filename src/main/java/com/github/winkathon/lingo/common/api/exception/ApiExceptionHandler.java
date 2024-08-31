@@ -51,7 +51,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ApiResponse<?> exception(Exception e) {
 
-        log.warn("Server Error : {}", e.getMessage());
+        log.error("Server Error", e);
 
         return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류가 발생했습니다.");
     }
