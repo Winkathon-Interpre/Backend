@@ -77,7 +77,6 @@ public class CommentService {
     public void replyContent(User user, String commentId, CreateCommentRequest dto) {
 
         String content = dto.content();
-        boolean anonymous = dto.anonymous();
 
         Comment orifinalComment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
 
@@ -86,7 +85,7 @@ public class CommentService {
                 .comment(orifinalComment)
                 .owner(user)
                 .content(content)
-                .anonymous(anonymous)
+                .anonymous(false)
                 .build();
 
         Notification notification = Notification.builder()
