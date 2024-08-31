@@ -180,3 +180,6 @@ gradle-app.setting
 ### Configuration ###
 src/main/resources/config/*.yaml
 !src/main/resources/config/*.template.yaml
+
+### Static Files ###
+uploads

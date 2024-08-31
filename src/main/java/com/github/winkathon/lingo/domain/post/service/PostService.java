@@ -5,19 +5,23 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.winkathon.lingo.domain.post.dto.request.BuyPostRequest;
 import com.github.winkathon.lingo.domain.post.dto.request.CreatePostRequest;
 import com.github.winkathon.lingo.domain.post.dto.response.GetPostResponse;
 import com.github.winkathon.lingo.domain.post.dto.response.GetPostsResponse;
+import com.github.winkathon.lingo.domain.post.dto.response.UploadResponse;
 import com.github.winkathon.lingo.domain.post.exception.AlreadyPaidPostException;
 import com.github.winkathon.lingo.domain.post.exception.ExistsPostTitleException;
 import com.github.winkathon.lingo.domain.post.exception.NotOwnPostException;
 import com.github.winkathon.lingo.domain.post.exception.NotPaidPostException;
 import com.github.winkathon.lingo.domain.post.exception.PostNotFoundException;
 import com.github.winkathon.lingo.domain.post.repository.PostRepository;
+import com.github.winkathon.lingo.domain.post.schema.Image;
 import com.github.winkathon.lingo.domain.post.schema.Post;
 import com.github.winkathon.lingo.domain.post.util.TossApi;
+import com.github.winkathon.lingo.domain.post.util.UploadUtil;
 import com.github.winkathon.lingo.domain.user.repository.UserRepository;
 import com.github.winkathon.lingo.domain.user.schema.User;
 
@@ -30,6 +34,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final TossApi tossApi;
+    private final UploadUtil uploadUtil;
 
     public GetPostsResponse getPosts() {
 
@@ -196,5 +201,14 @@ public class PostService {
 
         user.getSavedPosts().remove(post);
         userRepository.save(user);
+    }
+
+    public UploadResponse upload(User user, MultipartFile file) {
+
+        Image upload = uploadUtil.upload(user, file);
+
+        return UploadResponse.builder()
+                .fileName(upload.getFileName())
+                .build();
     }
 }
