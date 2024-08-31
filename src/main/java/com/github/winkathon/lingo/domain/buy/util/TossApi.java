@@ -1,4 +1,4 @@
-package com.github.winkathon.lingo.domain.credit.util;
+package com.github.winkathon.lingo.domain.buy.util;
 
 import java.util.Base64;
 import java.util.Map;
@@ -13,7 +13,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.github.winkathon.lingo.common.property.TossProperty;
-import com.github.winkathon.lingo.domain.credit.exception.BuyFailException;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -62,12 +61,12 @@ public class TossApi {
             return response.getBody();
         } catch (HttpClientErrorException.NotFound e) {
 
-            throw new BuyFailException();
+            throw new RuntimeException("결제 실패");
         } catch (HttpClientErrorException e) {
 
             log.warn("Toss API 호출 중 오류가 발생했습니다.", e);
 
-            throw new BuyFailException();
+            throw new RuntimeException("결제 실패");
         }
     }
 }
