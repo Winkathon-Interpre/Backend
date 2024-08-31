@@ -170,7 +170,7 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
 
-        if (user.getPaidPosts().contains(post)) {
+        if (user.getPaidPosts().contains(post) || post.getOwner().equals(user)) {
 
             throw new AlreadyPaidPostException();
         }
