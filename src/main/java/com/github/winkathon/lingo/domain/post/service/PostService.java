@@ -13,11 +13,13 @@ import com.github.winkathon.lingo.domain.post.dto.response.GetPostResponse;
 import com.github.winkathon.lingo.domain.post.dto.response.GetPostsResponse;
 import com.github.winkathon.lingo.domain.post.exception.AlreadyPaidPostException;
 import com.github.winkathon.lingo.domain.post.exception.ExistsPostTitleException;
+import com.github.winkathon.lingo.domain.post.exception.ImageNotFoundException;
 import com.github.winkathon.lingo.domain.post.exception.NotOwnPostException;
 import com.github.winkathon.lingo.domain.post.exception.PostNotFoundException;
 import com.github.winkathon.lingo.domain.post.repository.PostRepository;
 import com.github.winkathon.lingo.domain.post.schema.Post;
 import com.github.winkathon.lingo.domain.post.util.TossApi;
+import com.github.winkathon.lingo.domain.upload.repository.ImageRepository;
 import com.github.winkathon.lingo.domain.upload.response.UploadResponse;
 import com.github.winkathon.lingo.domain.upload.schema.Image;
 import com.github.winkathon.lingo.domain.upload.util.UploadUtil;
@@ -34,6 +36,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final TossApi tossApi;
     private final UploadUtil uploadUtil;
+    private final ImageRepository imageRepository;
 
     public GetPostsResponse getPosts() {
 
@@ -115,6 +118,9 @@ public class PostService {
         String introduce = dto.introduce();
         boolean paid = dto.isPaid();
         int price = dto.price();
+        String imageId = dto.imageId();
+        Image image = imageRepository.findById(imageId)
+                .orElseThrow(ImageNotFoundException::new);
 
         if (postRepository.existsByTitle(title)) {
 
@@ -128,6 +134,7 @@ public class PostService {
                 .introduce(introduce)
                 .paid(paid)
                 .price(price)
+                .backgroundImage(image)
                 .build();
 
         postRepository.save(post);

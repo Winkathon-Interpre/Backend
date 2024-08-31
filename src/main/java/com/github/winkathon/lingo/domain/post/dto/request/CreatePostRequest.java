@@ -1,5 +1,7 @@
 package com.github.winkathon.lingo.domain.post.dto.request;
 
+import com.github.winkathon.lingo.domain.upload.schema.Image;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -24,6 +26,9 @@ public record CreatePostRequest(
         Boolean isPaid,
 
         @NotNull
-        Integer price
+        Integer price,
+
+        @NotNull
+        String imageId
 ) {
 }

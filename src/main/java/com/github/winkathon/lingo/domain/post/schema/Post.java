@@ -3,6 +3,7 @@ package com.github.winkathon.lingo.domain.post.schema;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import com.github.winkathon.lingo.common.schema.BaseSchema;
+import com.github.winkathon.lingo.domain.upload.schema.Image;
 import com.github.winkathon.lingo.domain.user.schema.User;
 
 import lombok.Builder;
@@ -21,6 +22,9 @@ public class Post extends BaseSchema {
 
     private boolean paid;
     private int price;
+
+    @DBRef
+    private Image backgroundImage;
 
     @Override
     public boolean equals(Object o) {
