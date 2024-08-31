@@ -2,12 +2,17 @@ package com.github.winkathon.lingo.domain.user.service;
 
 import java.util.List;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.winkathon.lingo.common.security.authentication.UserAuthentication;
 import com.github.winkathon.lingo.domain.upload.schema.Image;
 import com.github.winkathon.lingo.domain.upload.util.UploadUtil;
 import com.github.winkathon.lingo.domain.user.dto.request.ChangeNameRequest;
+import com.github.winkathon.lingo.domain.user.dto.request.ChangePasswordRequest;
 import com.github.winkathon.lingo.domain.user.dto.response.UserListResponse;
 import com.github.winkathon.lingo.domain.user.dto.response.UserResponse;
 import com.github.winkathon.lingo.domain.user.exception.UserNotFoundException;
@@ -22,6 +27,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UploadUtil uploadUtil;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     public UserListResponse getUserList() {
 
@@ -56,6 +63,21 @@ public class UserService {
         String newName = dto.name();
 
         user.setName(newName);
+
+        userRepository.save(user);
+    }
+
+    public void changePassword(User user, ChangePasswordRequest dto) {
+
+        String oldPassword = dto.oldPassword();
+        String newPassword = dto.newPassword();
+
+        UserAuthentication authentication = new UserAuthentication(user, oldPassword);
+        Authentication authenticate = authenticationManager.authenticate(authentication);
+
+        assert authenticate.isAuthenticated();
+
+        user.setPassword(passwordEncoder.encode(newPassword));
 
         userRepository.save(user);
     }
