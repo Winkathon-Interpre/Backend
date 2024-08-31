@@ -2,6 +2,7 @@ package com.github.winkathon.lingo.domain.auth.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 @Builder
@@ -12,11 +13,11 @@ public record RegisterRequest(
         String name,
 
         @NotBlank
-        @Pattern(regexp = "^[a-zA-Z0-9]{4,}$")
+        @Size(min = 4, max = 128)
         String id,
 
         @NotBlank
-        @Pattern(regexp = "^[a-zA-Z0-9]{4,}$")
+        @Size(min = 4, max = 128)
         String password
 ) {
 }
