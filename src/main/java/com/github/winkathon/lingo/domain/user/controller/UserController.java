@@ -52,8 +52,9 @@ public class UserController {
 
     @PutMapping("/name")
     public ApiResponse<Void> changeName(@RequestBody ChangeNameRequest request) {
-        
+
         User user = UserContext.getUser();
+
         userService.changeName(user, request);
 
         return ApiResponse.ok();

@@ -47,6 +47,7 @@ public class UserService {
         Image image = uploadUtil.upload(user, file);
 
         user.setAvatar(image);
+
         userRepository.save(user);
     }
 
@@ -54,10 +55,8 @@ public class UserService {
 
         String newName = dto.name();
 
-        User updateUser = userRepository.findById(user.getId())
-                .orElseThrow(UserNotFoundException::new);
+        user.setName(newName);
 
-        updateUser.setName(newName);
-        userRepository.save(updateUser);
+        userRepository.save(user);
     }
 }
