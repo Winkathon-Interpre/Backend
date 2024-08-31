@@ -112,6 +112,7 @@ public class PostService {
 
         String title = dto.title();
         String content = dto.content();
+        String introduce = dto.introduce();
         boolean paid = dto.isPaid();
         int price = dto.price();
 
@@ -124,6 +125,7 @@ public class PostService {
                 .owner(user)
                 .title(title)
                 .content(content)
+                .introduce(introduce)
                 .paid(paid)
                 .price(price)
                 .build();
@@ -143,11 +145,13 @@ public class PostService {
 
         String title = dto.title();
         String content = dto.content();
+        String introduce = dto.introduce();
         boolean paid = dto.isPaid();
         int price = dto.price();
 
         post.setTitle(title);
         post.setContent(content);
+        post.setIntroduce(introduce);
         post.setPaid(paid);
         post.setPrice(price);
 

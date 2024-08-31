@@ -1,5 +1,7 @@
 package com.github.winkathon.lingo.domain.post.schema;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 import com.github.winkathon.lingo.common.schema.BaseSchema;
 import com.github.winkathon.lingo.domain.user.schema.User;
 
@@ -10,7 +12,9 @@ import lombok.Data;
 @Builder
 public class Image extends BaseSchema {
 
+    @DBRef
     private User owner;
+
     private String fileName;
 
     @Override

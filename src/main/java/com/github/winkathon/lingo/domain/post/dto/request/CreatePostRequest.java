@@ -16,6 +16,10 @@ public record CreatePostRequest(
         @Size(min = 10, max = 10000)
         String content,
 
+        @NotBlank
+        @Size(min = 10, max = 1000)
+        String introduce,
+
         @NotNull
         Boolean isPaid,
 
