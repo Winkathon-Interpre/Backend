@@ -1,4 +1,4 @@
-package com.github.winkathon.lingo.upload.schema;
+package com.github.winkathon.lingo.domain.upload.schema;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 

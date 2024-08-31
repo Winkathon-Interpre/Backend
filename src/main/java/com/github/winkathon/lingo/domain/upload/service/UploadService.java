@@ -1,12 +1,12 @@
-package com.github.winkathon.lingo.upload.service;
+package com.github.winkathon.lingo.domain.upload.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.winkathon.lingo.domain.upload.response.UploadResponse;
+import com.github.winkathon.lingo.domain.upload.schema.Image;
+import com.github.winkathon.lingo.domain.upload.util.UploadUtil;
 import com.github.winkathon.lingo.domain.user.schema.User;
-import com.github.winkathon.lingo.upload.response.UploadResponse;
-import com.github.winkathon.lingo.upload.schema.Image;
-import com.github.winkathon.lingo.upload.util.UploadUtil;
 
 import lombok.RequiredArgsConstructor;
 

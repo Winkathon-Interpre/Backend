@@ -1,4 +1,4 @@
-package com.github.winkathon.lingo.upload.util;
+package com.github.winkathon.lingo.domain.upload.util;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -10,9 +10,9 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.winkathon.lingo.domain.upload.repository.ImageRepository;
+import com.github.winkathon.lingo.domain.upload.schema.Image;
 import com.github.winkathon.lingo.domain.user.schema.User;
-import com.github.winkathon.lingo.upload.repository.ImageRepository;
-import com.github.winkathon.lingo.upload.schema.Image;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

@@ -18,11 +18,11 @@ import com.github.winkathon.lingo.domain.post.exception.PostNotFoundException;
 import com.github.winkathon.lingo.domain.post.repository.PostRepository;
 import com.github.winkathon.lingo.domain.post.schema.Post;
 import com.github.winkathon.lingo.domain.post.util.TossApi;
+import com.github.winkathon.lingo.domain.upload.response.UploadResponse;
+import com.github.winkathon.lingo.domain.upload.schema.Image;
+import com.github.winkathon.lingo.domain.upload.util.UploadUtil;
 import com.github.winkathon.lingo.domain.user.repository.UserRepository;
 import com.github.winkathon.lingo.domain.user.schema.User;
-import com.github.winkathon.lingo.upload.response.UploadResponse;
-import com.github.winkathon.lingo.upload.schema.Image;
-import com.github.winkathon.lingo.upload.util.UploadUtil;
 
 import lombok.RequiredArgsConstructor;
 

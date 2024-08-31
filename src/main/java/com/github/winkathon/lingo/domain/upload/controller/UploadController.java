@@ -1,4 +1,4 @@
-package com.github.winkathon.lingo.upload.controller;
+package com.github.winkathon.lingo.domain.upload.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,9 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.winkathon.lingo.common.api.dto.response.ApiResponse;
 import com.github.winkathon.lingo.common.security.util.UserContext;
+import com.github.winkathon.lingo.domain.upload.response.UploadResponse;
+import com.github.winkathon.lingo.domain.upload.service.UploadService;
 import com.github.winkathon.lingo.domain.user.schema.User;
-import com.github.winkathon.lingo.upload.response.UploadResponse;
-import com.github.winkathon.lingo.upload.service.UploadService;
 
 import lombok.RequiredArgsConstructor;
 
