@@ -14,6 +14,7 @@ public class Post extends BaseSchema {
 
     private String title;
     private String content;
+    private String introduce;
 
     private boolean paid;
     private int price;
