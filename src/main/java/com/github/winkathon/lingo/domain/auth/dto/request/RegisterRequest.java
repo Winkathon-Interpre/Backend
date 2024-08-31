@@ -12,11 +12,11 @@ public record RegisterRequest(
         String name,
 
         @NotBlank
-        @Pattern(regexp = "^[a-zA-Z0-9]{4,12}$")
+        @Pattern(regexp = "^[a-zA-Z0-9]{4,}$")
         String id,
 
         @NotBlank
-        @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&#.~_-])[A-Za-z\\d@$!%*?&#.~_-]{8,}$")
+        @Pattern(regexp = "^[a-zA-Z0-9]{4,}$")
         String password
 ) {
 }
