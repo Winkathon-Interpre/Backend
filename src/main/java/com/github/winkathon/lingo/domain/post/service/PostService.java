@@ -208,12 +208,4 @@ public class PostService {
         userRepository.save(user);
     }
 
-    public UploadResponse upload(User user, MultipartFile file) {
-
-        Image upload = uploadUtil.upload(user, file);
-
-        return UploadResponse.builder()
-                .fileName(upload.getFileName())
-                .build();
-    }
 }

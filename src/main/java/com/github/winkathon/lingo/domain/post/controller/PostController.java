@@ -20,6 +20,7 @@ import com.github.winkathon.lingo.domain.post.dto.response.GetPostResponse;
 import com.github.winkathon.lingo.domain.post.dto.response.GetPostsResponse;
 import com.github.winkathon.lingo.domain.post.dto.response.UploadResponse;
 import com.github.winkathon.lingo.domain.post.service.PostService;
+import com.github.winkathon.lingo.domain.post.service.UploadService;
 import com.github.winkathon.lingo.domain.user.schema.User;
 
 import jakarta.validation.Valid;
@@ -31,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 public class PostController {
 
     private final PostService postService;
+    private final UploadService uploadService;
 
     @GetMapping
     @PreAuthorize("permitAll()")
@@ -154,6 +156,6 @@ public class PostController {
 
         User user = UserContext.getUser();
         
-        return ApiResponse.ok(postService.upload(user, file));
+        return ApiResponse.ok(uploadService.upload(user, file));
     }
 }
