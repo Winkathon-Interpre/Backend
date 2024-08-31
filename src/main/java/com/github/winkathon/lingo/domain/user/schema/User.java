@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.winkathon.lingo.common.schema.BaseSchema;
 import com.github.winkathon.lingo.domain.post.schema.Post;
+import com.github.winkathon.lingo.domain.upload.schema.Image;
 
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,9 @@ public class User extends BaseSchema {
     private String password;
 
     private String name;
+
+    @DBRef
+    private Image avatar;
 
     @JsonIgnore
     @DBRef

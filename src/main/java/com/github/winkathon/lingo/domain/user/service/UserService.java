@@ -2,10 +2,11 @@ package com.github.winkathon.lingo.domain.user.service;
 
 import java.util.List;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.github.winkathon.lingo.domain.upload.schema.Image;
+import com.github.winkathon.lingo.domain.upload.util.UploadUtil;
 import com.github.winkathon.lingo.domain.user.dto.response.UserListResponse;
 import com.github.winkathon.lingo.domain.user.dto.response.UserResponse;
 import com.github.winkathon.lingo.domain.user.exception.UserNotFoundException;
@@ -19,8 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
+    private final UploadUtil uploadUtil;
 
     public UserListResponse getUserList() {
 
@@ -39,5 +39,12 @@ public class UserService {
         return UserResponse.builder()
                 .user(user)
                 .build();
+    }
+
+    public void uploadAvatar(User user, MultipartFile file) {
+
+        Image image = uploadUtil.upload(user, file);
+
+        user.setAvatar(image);
     }
 }
