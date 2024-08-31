@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.winkathon.lingo.domain.upload.schema.Image;
 import com.github.winkathon.lingo.domain.upload.util.UploadUtil;
+import com.github.winkathon.lingo.domain.user.dto.request.ChangeNameRequest;
 import com.github.winkathon.lingo.domain.user.dto.response.UserListResponse;
 import com.github.winkathon.lingo.domain.user.dto.response.UserResponse;
 import com.github.winkathon.lingo.domain.user.exception.UserNotFoundException;
@@ -46,5 +47,17 @@ public class UserService {
         Image image = uploadUtil.upload(user, file);
 
         user.setAvatar(image);
+        userRepository.save(user);
+    }
+
+    public void changeName(User user, ChangeNameRequest dto) {
+
+        String newName = dto.name();
+
+        User updateUser = userRepository.findById(user.getId())
+                .orElseThrow(UserNotFoundException::new);
+
+        updateUser.setName(newName);
+        userRepository.save(updateUser);
     }
 }

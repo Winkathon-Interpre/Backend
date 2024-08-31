@@ -4,12 +4,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.winkathon.lingo.common.api.dto.response.ApiResponse;
 import com.github.winkathon.lingo.common.security.util.UserContext;
+import com.github.winkathon.lingo.domain.user.dto.request.ChangeNameRequest;
 import com.github.winkathon.lingo.domain.user.dto.response.UserListResponse;
 import com.github.winkathon.lingo.domain.user.dto.response.UserResponse;
 import com.github.winkathon.lingo.domain.user.schema.User;
@@ -44,6 +46,15 @@ public class UserController {
         User user = UserContext.getUser();
 
         userService.uploadAvatar(user, file);
+
+        return ApiResponse.ok();
+    }
+
+    @PutMapping("/name")
+    public ApiResponse<Void> changeName(@RequestBody ChangeNameRequest request) {
+        
+        User user = UserContext.getUser();
+        userService.changeName(user, request);
 
         return ApiResponse.ok();
     }
