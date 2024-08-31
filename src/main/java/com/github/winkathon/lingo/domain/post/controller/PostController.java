@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.github.winkathon.lingo.common.api.dto.response.ApiResponse;
 import com.github.winkathon.lingo.common.security.util.UserContext;
@@ -18,9 +17,7 @@ import com.github.winkathon.lingo.domain.post.dto.request.BuyPostRequest;
 import com.github.winkathon.lingo.domain.post.dto.request.CreatePostRequest;
 import com.github.winkathon.lingo.domain.post.dto.response.GetPostResponse;
 import com.github.winkathon.lingo.domain.post.dto.response.GetPostsResponse;
-import com.github.winkathon.lingo.domain.post.dto.response.UploadResponse;
 import com.github.winkathon.lingo.domain.post.service.PostService;
-import com.github.winkathon.lingo.domain.post.service.UploadService;
 import com.github.winkathon.lingo.domain.user.schema.User;
 
 import jakarta.validation.Valid;
@@ -32,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 public class PostController {
 
     private final PostService postService;
-    private final UploadService uploadService;
 
     @GetMapping
     @PreAuthorize("permitAll()")
@@ -150,12 +146,4 @@ public class PostController {
         return ApiResponse.ok();
     }
 
-    @PostMapping("/upload")
-    @PreAuthorize("isAuthenticated()")
-    public ApiResponse<UploadResponse> upload(@RequestParam("file") MultipartFile file) {
-
-        User user = UserContext.getUser();
-        
-        return ApiResponse.ok(uploadService.upload(user, file));
-    }
 }

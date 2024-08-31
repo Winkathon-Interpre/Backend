@@ -1,4 +1,4 @@
-package com.github.winkathon.lingo.domain.post.dto.response;
+package com.github.winkathon.lingo.upload.response;
 
 import lombok.Builder;
 
