@@ -5,11 +5,9 @@ import com.github.winkathon.lingo.domain.user.schema.User;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @Builder
-@EqualsAndHashCode(callSuper = true)
 public class Notification extends BaseSchema {
 
     private User owner;
@@ -20,4 +18,14 @@ public class Notification extends BaseSchema {
     private boolean read;
 
     private String redirectUrl;
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (!(o instanceof Notification target)) {
+            return false;
+        }
+
+        return this.getId().equals(target.getId());
+    }
 }

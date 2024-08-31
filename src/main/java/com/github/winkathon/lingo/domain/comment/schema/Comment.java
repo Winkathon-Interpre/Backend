@@ -5,11 +5,9 @@ import com.github.winkathon.lingo.domain.post.schema.Post;
 import com.github.winkathon.lingo.domain.user.schema.User;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class Comment extends BaseSchema {
 
@@ -20,4 +18,14 @@ public class Comment extends BaseSchema {
     private boolean anonymous;
 
     private String content;
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (!(o instanceof Comment target)) {
+            return false;
+        }
+
+        return this.getId().equals(target.getId());
+    }
 }
