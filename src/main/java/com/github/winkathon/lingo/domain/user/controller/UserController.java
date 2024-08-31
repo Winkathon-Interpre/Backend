@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.winkathon.lingo.common.api.dto.response.ApiResponse;
 import com.github.winkathon.lingo.common.security.util.UserContext;
 import com.github.winkathon.lingo.domain.user.dto.request.ChangeNameRequest;
+import com.github.winkathon.lingo.domain.user.dto.request.ChangePasswordRequest;
 import com.github.winkathon.lingo.domain.user.dto.response.UserListResponse;
 import com.github.winkathon.lingo.domain.user.dto.response.UserResponse;
 import com.github.winkathon.lingo.domain.user.schema.User;
@@ -56,6 +57,16 @@ public class UserController {
         User user = UserContext.getUser();
 
         userService.changeName(user, request);
+
+        return ApiResponse.ok();
+    }
+
+    @PutMapping("/password")
+    public ApiResponse<Void> changePassword(@RequestBody ChangePasswordRequest request) {
+
+        User user = UserContext.getUser();
+
+        userService.changePassword(user, request);
 
         return ApiResponse.ok();
     }
