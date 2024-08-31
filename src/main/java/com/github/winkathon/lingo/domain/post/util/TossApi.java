@@ -1,4 +1,4 @@
-package com.github.winkathon.lingo.domain.buy.util;
+package com.github.winkathon.lingo.domain.post.util;
 
 import java.util.Base64;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class TossApi {
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
-    public Map<String, Object> pay(String orderId, String paymentKey, int amount) {
+    public void pay(String orderId, String paymentKey, int amount) {
 
         Map<String, ?> body = Map.ofEntries(
                 Map.entry("paymentKey", paymentKey),
@@ -57,8 +57,11 @@ public class TossApi {
                     Map.class
             );
 
-            //noinspection unchecked
-            return response.getBody();
+            assert response.getBody() != null;
+            if (!response.getBody().get("status").equals("DONE")) {
+
+                throw new RuntimeException("결제 실패");
+            }
         } catch (HttpClientErrorException.NotFound e) {
 
             throw new RuntimeException("결제 실패");
