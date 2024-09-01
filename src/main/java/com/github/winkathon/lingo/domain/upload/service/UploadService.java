@@ -3,6 +3,9 @@ package com.github.winkathon.lingo.domain.upload.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.winkathon.lingo.domain.post.exception.ImageNotFoundException;
+import com.github.winkathon.lingo.domain.upload.dto.response.GetFileResponse;
+import com.github.winkathon.lingo.domain.upload.repository.ImageRepository;
 import com.github.winkathon.lingo.domain.upload.response.UploadResponse;
 import com.github.winkathon.lingo.domain.upload.schema.Image;
 import com.github.winkathon.lingo.domain.upload.util.UploadUtil;
@@ -14,13 +17,24 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UploadService {
     private final UploadUtil uploadUtil;
+    private final ImageRepository imageRepository;
 
     public UploadResponse upload(User user, MultipartFile file) {
 
         Image upload = uploadUtil.upload(user, file);
 
         return UploadResponse.builder()
-                .fileName(upload.getFileName())
+                .image(upload)
+                .build();
+    }
+
+    public GetFileResponse getFile(String fileId) {
+
+        Image image = imageRepository.findById(fileId)
+                .orElseThrow(ImageNotFoundException::new);
+
+        return GetFileResponse.builder()
+                .image(image)
                 .build();
     }
 }

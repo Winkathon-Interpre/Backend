@@ -23,7 +23,8 @@ public class NotificationService {
 
     public GetNotificationsResponse getNotifications(User user) {
 
-        List<Notification> notifications = notificationRepository.findByOwner(user);
+        List<Notification> notifications = notificationRepository.findAll()
+                .stream().filter(notification -> notification.getOwner().equals(user)).toList();
 
         return GetNotificationsResponse.builder()
                 .notifications(notifications)

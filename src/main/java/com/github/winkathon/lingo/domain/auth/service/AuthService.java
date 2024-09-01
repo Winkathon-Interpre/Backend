@@ -1,6 +1,6 @@
 package com.github.winkathon.lingo.domain.auth.service;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -81,8 +81,8 @@ public class AuthService {
                 .name(name)
                 .userId(userId)
                 .password(encoder.encode(password))
-                .paidPosts(List.of())
-                .savedPosts(List.of())
+                .paidPosts(new ArrayList<>())
+                .savedPosts(new ArrayList<>())
                 .build();
 
         userRepository.save(user);

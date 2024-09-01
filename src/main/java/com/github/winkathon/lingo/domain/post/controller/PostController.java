@@ -72,10 +72,14 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("permitAll()")
     public ApiResponse<GetPostResponse> getPost(@PathVariable String postId) {
 
-        User user = UserContext.getUser();
+        User user = null;
+        try {
+            user = UserContext.getUser();
+        } catch (Exception ignored) {
+        }
 
         return ApiResponse.ok(postService.getPost(user, postId));
     }

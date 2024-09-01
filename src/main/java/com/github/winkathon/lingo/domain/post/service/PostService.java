@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.github.winkathon.lingo.domain.post.dto.request.BuyPostRequest;
 import com.github.winkathon.lingo.domain.post.dto.request.CreatePostRequest;
@@ -20,9 +19,7 @@ import com.github.winkathon.lingo.domain.post.repository.PostRepository;
 import com.github.winkathon.lingo.domain.post.schema.Post;
 import com.github.winkathon.lingo.domain.post.util.TossApi;
 import com.github.winkathon.lingo.domain.upload.repository.ImageRepository;
-import com.github.winkathon.lingo.domain.upload.response.UploadResponse;
 import com.github.winkathon.lingo.domain.upload.schema.Image;
-import com.github.winkathon.lingo.domain.upload.util.UploadUtil;
 import com.github.winkathon.lingo.domain.user.repository.UserRepository;
 import com.github.winkathon.lingo.domain.user.schema.User;
 
@@ -35,7 +32,6 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final TossApi tossApi;
-    private final UploadUtil uploadUtil;
     private final ImageRepository imageRepository;
 
     public GetPostsResponse getPosts() {
@@ -53,8 +49,13 @@ public class PostService {
 
         Set<Post> posts = new HashSet<>();
 
-        posts.addAll(postRepository.findAllByTitleContaining(keyword));
-        posts.addAll(postRepository.findAllByContentContaining(keyword));
+        postRepository.findAll().forEach(post -> {
+
+            if (post.getIntroduce().contains(keyword) || post.getTitle().contains(keyword)) {
+
+                posts.add(post);
+            }
+        });
 
         posts.forEach(post -> post.setContent(null));
 
@@ -87,7 +88,9 @@ public class PostService {
 
     public GetPostsResponse getOwnedPosts(User user) {
 
-        List<Post> posts = postRepository.findAllByOwner(user);
+        List<Post> posts = postRepository.findAll();
+
+        posts.removeIf(post -> !post.getOwner().equals(user));
 
         posts.forEach(post -> post.setContent(null));
 
@@ -101,9 +104,16 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
 
-        if (!post.getOwner().equals(user) && post.isPaid() && !user.getPaidPosts().contains(post)) {
+        if (user == null) {
+            if (post.isPaid()) {
 
-            post.setContent(null);
+                post.setContent(null);
+            }
+        } else {
+            if (!post.getOwner().equals(user) && post.isPaid() && !user.getPaidPosts().contains(post)) {
+
+                post.setContent(null);
+            }
         }
 
         return GetPostResponse.builder()
@@ -155,12 +165,17 @@ public class PostService {
         String introduce = dto.introduce();
         boolean paid = dto.isPaid();
         int price = dto.price();
+        String imageId = dto.imageId();
+
+        Image image = imageRepository.findById(imageId)
+                .orElseThrow(ImageNotFoundException::new);
 
         post.setTitle(title);
         post.setContent(content);
         post.setIntroduce(introduce);
         post.setPaid(paid);
         post.setPrice(price);
+        post.setBackgroundImage(image);
 
         postRepository.save(post);
     }
@@ -195,6 +210,7 @@ public class PostService {
         tossApi.pay(orderId, paymentKey, amount);
 
         user.getPaidPosts().add(post);
+        userRepository.save(user);
     }
 
     public void savePost(User user, String postId) {
@@ -202,7 +218,13 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
 
+        if (post.getOwner().equals(user)) {
+
+            throw new NotOwnPostException();
+        }
+
         user.getSavedPosts().add(post);
+
         userRepository.save(user);
     }
 

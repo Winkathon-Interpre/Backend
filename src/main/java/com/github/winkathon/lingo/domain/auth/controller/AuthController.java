@@ -60,6 +60,7 @@ public class AuthController {
     }
 
     @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
     public ApiResponse<UserResponse> me() {
 
         User user = UserContext.getUser();

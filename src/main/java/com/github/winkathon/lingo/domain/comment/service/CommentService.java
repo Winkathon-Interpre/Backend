@@ -29,7 +29,9 @@ public class CommentService {
     public GetCommentsResponse getCommentsByPostId(User user, String postId) {
 
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        List<Comment> comments = commentRepository.findAllByPost(post);
+        List<Comment> comments = commentRepository.findAll().stream()
+                .filter(comment -> comment.getPost().equals(post))
+                .toList();
 
         if (!post.getOwner().equals(user)) {
 
@@ -66,7 +68,7 @@ public class CommentService {
                 .title(post.getTitle())
                 .content(comment.getContent())
                 .read(false)
-                .redirectUrl("")
+                .redirectUrl("/post/" + post.getId())
                 .build();
 
         notificationRepository.save(notification);
