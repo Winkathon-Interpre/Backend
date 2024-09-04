@@ -1,0 +1,5 @@
+app:
+  jwt:
+    secretKey: (your secret key),
+    accessTokenExpirationsHours: 4
+    refreshTokenExpirationsHours: 168
