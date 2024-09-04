@@ -178,4 +178,8 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/gradle,macos,intellij+all,java
 
 ### Configuration ###
-src/main/resources/application.yaml
+src/main/resources/config/*.yaml
+!src/main/resources/config/*.template.yaml
+
+### Static Files ###
+uploads
